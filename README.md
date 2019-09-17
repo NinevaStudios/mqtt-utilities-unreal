@@ -4,6 +4,8 @@ MQTT Utilities is a plugin for Unreal Engine intended to expose MQTT client func
 
 Check out the [Documentation](https://github.com/NinevaStudios/MqttUtilities-UnrealEngine/wiki) to lear more about the plugin.
 
+Learn more about [MQTT](http://mqtt.org/) and its basic [concepts](https://mosquitto.org/man/mqtt-7.html).
+
 Join our [Discord server](https://discord.gg/SuJP9fY) and ask us anything!
 
 ## Features
