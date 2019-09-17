@@ -6,6 +6,8 @@ Check out the [Documentation](https://github.com/NinevaStudios/MqttUtilities-Unr
 
 Learn more about [MQTT](http://mqtt.org/) and its basic [concepts](https://mosquitto.org/man/mqtt-7.html).
 
+[Download](https://github.com/NinevaStudios/MqttUtilities-UnrealEngine/releases) demo application and try it out.
+
 Join our [Discord server](https://discord.gg/SuJP9fY) and ask us anything!
 
 ## Features
