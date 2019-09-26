@@ -2,7 +2,7 @@
 
 MQTT Utilities is a plugin for Unreal Engine intended to expose MQTT client functionality to blueprints.
 
-Check out the [Documentation](https://github.com/NinevaStudios/MqttUtilities-UnrealEngine/wiki) to lear more about the plugin.
+Check out the [Documentation](https://github.com/NinevaStudios/MqttUtilities-UnrealEngine/wiki) to learn more about the plugin.
 
 Learn more about [MQTT](http://mqtt.org/) and its basic [concepts](https://mosquitto.org/man/mqtt-7.html).
 
@@ -29,6 +29,7 @@ Join our [Discord server](https://discord.gg/SuJP9fY) and ask us anything!
 * [HiveMQ](https://www.hivemq.com/)
 * [flespi](https://flespi.com/mqtt-broker)
 * [ActiveMQ](https://activemq.apache.org/index.html)
+* [mosca](https://github.com/mcollina/mosca)
 
 This list can be extended in the future. Also, even if some MQTT brokers are not listed here it doesn't necessarily mean that they are incompatible with MQTT Utilities plugin for Unreal Engine unless this is mentioned explicitly.
 
