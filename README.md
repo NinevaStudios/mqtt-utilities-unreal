@@ -28,6 +28,7 @@ Join our [Discord server](https://discord.gg/SuJP9fY) and ask us anything!
 * [CloudMQTT](https://www.cloudmqtt.com/)
 * [HiveMQ](https://www.hivemq.com/)
 * [flespi](https://flespi.com/mqtt-broker)
+* [ActiveMQ](https://activemq.apache.org/index.html)
 
 This list can be extended in the future. Also, even if some MQTT brokers are not listed here it doesn't necessarily mean that they are incompatible with MQTT Utilities plugin for Unreal Engine unless this is mentioned explicitly.
 
