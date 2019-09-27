@@ -31,6 +31,7 @@ Join our [Discord server](https://discord.gg/SuJP9fY) and ask us anything!
 * [ActiveMQ](https://activemq.apache.org/index.html)
 * [mosca](https://github.com/mcollina/mosca)
 * [Eclipse Mosquitto](https://mosquitto.org/)
+* [RabbitMQ](https://www.rabbitmq.com/)
 
 This list can be extended in the future. Also, even if some MQTT brokers are not listed here it doesn't necessarily mean that they are incompatible with MQTT Utilities plugin for Unreal Engine unless this is mentioned explicitly.
 
