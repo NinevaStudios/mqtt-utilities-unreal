@@ -1,0 +1,26 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0.0",
+  "FriendlyName": "MQTT Utilities",
+  "Description": "MQTT client for Unreal Engine",
+  "Category": "Code Plugins",
+  "CreatedBy": "Nineva Studios",
+  "CreatedByURL": "https://ninevastudios.com/",
+  "DocsURL": "https://github.com/NinevaStudios/MqttUtilities-UnrealEngine/wiki",
+  "MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/6371e7a3824549bba2411d0f1baa7ae0",
+  "EngineVersion": "4.22.0",
+  "SupportURL": "mailto:support@ninevastudios.com",
+  "EnabledByDefault": true,
+  "CanContainContent": true,
+  "IsBetaVersion": false,
+  "Installed": true,
+  "Modules": [
+    {
+      "Name": "MqttUtilities",
+      "Type": "Runtime",
+      "LoadingPhase": "Default",
+      "WhitelistPlatforms": [ "Win64", "Mac", "Android", "IOS" ]
+    }
+  ]
+}
