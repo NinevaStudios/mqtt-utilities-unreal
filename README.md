@@ -1,3 +1,5 @@
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8JXUYRFCZMR7G)
+
 # MQTT Utilities plugin for Unreal Engine
 
 MQTT Utilities is a plugin for Unreal Engine intended to expose MQTT client functionality to blueprints.
