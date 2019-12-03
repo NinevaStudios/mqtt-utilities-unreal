@@ -10,7 +10,7 @@ Check out the [Documentation](https://github.com/NinevaStudios/MqttUtilities-Unr
 
 Learn more about [MQTT](http://mqtt.org/) and its basic [concepts](https://mosquitto.org/man/mqtt-7.html).
 
-[Download](https://github.com/NinevaStudios/MqttUtilities-UnrealEngine/releases) demo applications for Windows/Mac/Android and try it out. Also, you can download complete demo project made with UE 4.22 and take a look how to use certain plugin features!
+[Download](https://github.com/NinevaStudios/MqttUtilities-UnrealEngine/releases) demo applications for Windows/Mac/Android and try it out. Also, you can download complete demo project made with UE 4.23 and take a look how to use certain plugin features!
 
 Join our [Discord server](https://discord.gg/SuJP9fY) and ask us anything!
 
