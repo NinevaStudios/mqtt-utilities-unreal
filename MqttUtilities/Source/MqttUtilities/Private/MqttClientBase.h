@@ -52,18 +52,18 @@ public:
 
 protected:
 
-    UPROPERTY()
-    FOnConnectDelegate OnConnectDelegate;
 	UPROPERTY()
-    FOnDisconnectDelegate OnDisconnectDelegate;
+	FOnConnectDelegate OnConnectDelegate;
 	UPROPERTY()
-    FOnPublishDelegate OnPublishDelegate;
+	FOnDisconnectDelegate OnDisconnectDelegate;
 	UPROPERTY()
-    FOnMessageDelegate OnMessageDelegate;
+	FOnPublishDelegate OnPublishDelegate;
 	UPROPERTY()
-    FOnSubscribeDelegate OnSubscribeDelegate;
+	FOnMessageDelegate OnMessageDelegate;
 	UPROPERTY()
-    FOnUnsubscribeDelegate OnUnsubscribeDelegate;
+	FOnSubscribeDelegate OnSubscribeDelegate;
+	UPROPERTY()
+	FOnUnsubscribeDelegate OnUnsubscribeDelegate;
 	UPROPERTY()
 	FOnMqttErrorDelegate OnErrorDelegate;
 };

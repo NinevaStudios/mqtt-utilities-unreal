@@ -1,0 +1,39 @@
+# Visual Studio user specific files
+.vs/
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Executables
+*.exe
+*.out
+*.app
+*.ipa
+
+# Binary Files
+Binaries/*
+
+# Compiled source files for the engine to use
+Intermediate/*
+
+# Other
+.DS_Store

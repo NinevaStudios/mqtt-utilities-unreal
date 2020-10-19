@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "MqttClientBase.h"
 #include "CoreMinimal.h"
+#include "MqttClientBase.h"
 
 #include "MqttClient.generated.h"
 
@@ -18,7 +18,6 @@ class UMqttClient : public UMqttClientBase
 	friend class FMqttRunnable;
 
 public:
-
 	void BeginDestroy() override;
 
 	void Connect(FMqttConnectionData connectionData, const FOnConnectDelegate& onConnectCallback) override;
@@ -32,11 +31,9 @@ public:
 	void Publish(FMqttMessage message) override;
 
 public:
-
 	void Init(FMqttClientConfig configData) override;
 
 private:
-
 	FMqttRunnable* Task;
 	FRunnableThread* Thread;
 	FMqttClientConfig ClientConfig;

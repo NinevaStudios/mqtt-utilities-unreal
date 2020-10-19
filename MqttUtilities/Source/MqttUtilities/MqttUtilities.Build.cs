@@ -8,162 +8,86 @@ public class MqttUtilities : ModuleRules
 	public MqttUtilities(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		
-		PublicIncludePaths.AddRange(
-			new string[] {
-                Path.Combine (ModuleDirectory, "Public")
-				// ... add public include paths required here ...
-			}
-			);
-				
-		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-                Path.Combine (ModuleDirectory, "Private")
-				// ... add other private include paths required here ...
-			}
-			);
-			
-		
+
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
 				"Core",
-				// ... add other public dependencies that you statically link with here ...
 			}
-			);
-			
-		
+		);
+
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
 				"CoreUObject",
 				"Engine",
-                "Projects",
-                // ... add private dependencies that you statically link with here ...	
+				"Projects"
 			}
-			);
-		
-		
-		DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-				// ... add any modules that your module loads dynamically here ...
-			}
-			);
+		);
 
+		string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
 
-        // Additional routine for Windows
-        if (Target.Platform == UnrealTargetPlatform.Win64)
-        {
-            PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/Windows"));
+		// Additional routine for Windows
+		if (Target.Platform == UnrealTargetPlatform.Win64)
+		{
+			string MosquittoLibPath = Path.Combine(ModuleDirectory, "../ThirdParty/", Target.Platform.ToString(), "mosquitto");
 
-            LoadThirdPartyLibrary("mosquitto", Target);
-            LoadThirdPartyLibrary("mosquittopp", Target);
-        }
+			PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/Windows"));
+			PrivateIncludePaths.Add(Path.Combine(MosquittoLibPath, "includes"));
+			
+			PublicDelayLoadDLLs.Add("mosquitto.dll");
+			PublicDelayLoadDLLs.Add("mosquittopp.dll");
 
-        // Additional routine for Mac
-        if (Target.Platform == UnrealTargetPlatform.Mac)
-        {
-            PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/Mac"));
+			PublicAdditionalLibraries.Add(Path.Combine(MosquittoLibPath, "mosquitto.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(MosquittoLibPath, "mosquittopp.lib"));
 
-            LoadThirdPartyLibrary("mosquitto", Target);
-            LoadThirdPartyLibrary("mosquittopp", Target);
-        }
+			RuntimeDependencies.Add("$(BinaryOutputDir)/mosquitto.dll", Path.Combine(MosquittoLibPath, "mosquitto.dll"));
+			RuntimeDependencies.Add("$(BinaryOutputDir)/mosquittopp.dll", Path.Combine(MosquittoLibPath, "mosquittopp.dll"));
+			RuntimeDependencies.Add("$(BinaryOutputDir)/libssl-1_1-x64.dll", Path.Combine(MosquittoLibPath, "libssl-1_1-x64.dll"));
+			RuntimeDependencies.Add("$(BinaryOutputDir)/libcrypto-1_1-x64.dll", Path.Combine(MosquittoLibPath, "libcrypto-1_1-x64.dll"));
+		}
 
-        // Additional routine for iOS
-        if (Target.Platform == UnrealTargetPlatform.IOS)
-        {
-            PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/IOS"));
+		// Additional routine for Mac
+		if (Target.Platform == UnrealTargetPlatform.Mac)
+		{
+			string MosquittoLibPath = Path.Combine(ModuleDirectory, "../ThirdParty/", Target.Platform.ToString(), "mosquitto");
 
-            PublicAdditionalFrameworks.Add(new Framework("MQTTClient", "../ThirdParty/IOS/MQTTClient.embeddedframework.zip"));
+			PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/Mac"));
+			PrivateIncludePaths.Add(Path.Combine(MosquittoLibPath, "includes"));
+
+			RuntimeDependencies.Add("$(BinaryOutputDir)/mosquitto.dylib", Path.Combine(MosquittoLibPath, "mosquitto.dylib"));
+			RuntimeDependencies.Add("$(BinaryOutputDir)/mosquittopp.dylib", Path.Combine(MosquittoLibPath, "mosquittopp.dylib"));
+		}
+
+		// Additional routine for iOS
+		if (Target.Platform == UnrealTargetPlatform.IOS)
+		{
+			PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/IOS"));
+
+			PublicAdditionalFrameworks.Add(new Framework("MQTTClient", "../ThirdParty/IOS/MQTTClient.embeddedframework.zip"));
 			PublicAdditionalFrameworks.Add(new Framework("SocketRocket", "../ThirdParty/IOS/SocketRocket.embeddedframework.zip"));
 
-			PublicAdditionalLibraries.Add("/usr/lib/libicucore.dylib");
-
-            PublicFrameworks.AddRange(
-                new string[]
-                {
+			PublicFrameworks.AddRange(
+				new string[]
+				{
 					"Foundation",
 					"Security",
-                    "CFNetwork",
+					"CFNetwork",
 					"CoreData"
-                }
-            );
+				}
+			);
 
-            PrivateDependencyModuleNames.AddRange(new string[] { "Launch" });
-            string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
+			PrivateDependencyModuleNames.AddRange(new string[] { "Launch" });
+			AdditionalPropertiesForReceipt.Add("IOSPlugin", Path.Combine(PluginPath, "MqttUtilities_IOS_UPL.xml"));
+		}
 
-            AdditionalPropertiesForReceipt.Add("IOSPlugin", Path.Combine(PluginPath, "MqttUtilities_IOS_UPL.xml"));
-        }
+		// Additional routine for Android
+		if (Target.Platform == UnrealTargetPlatform.Android)
+		{
+			PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/Android"));
 
-        // Additional routine for Android
-        if (Target.Platform == UnrealTargetPlatform.Android)
-        {
-            PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/Android"));
-
-            PrivateDependencyModuleNames.AddRange(new string[] { "Launch" });
-            string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
-
-            AdditionalPropertiesForReceipt.Add("AndroidPlugin", Path.Combine(PluginPath, "MqttUtilities_Android_UPL.xml"));
-        }
-    }
-
-    public void LoadThirdPartyLibrary(string libname, ReadOnlyTargetRules Target)
-    {
-        string StaticLibExtension = ".lib";
-        string DynamicLibExtension = string.Empty;
-
-        if(Target.Platform == UnrealTargetPlatform.Win64)
-        { 
-            DynamicLibExtension = ".dll";
-        }
-        if(Target.Platform == UnrealTargetPlatform.Mac)
-        {    
-            DynamicLibExtension = ".dylib";
-        }
-
-        string ThirdPartyPath = Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString());
-        string LibrariesPath = Path.Combine(ThirdPartyPath, libname, "libraries");
-        string IncludesPath = Path.Combine(ThirdPartyPath, libname, "includes");
-        string BinariesPath = Path.GetFullPath(Path.Combine(ModuleDirectory, "../../Binaries", Target.Platform.ToString()));
-
-        // Link static library (Windows only)
-
-        if(Target.Platform == UnrealTargetPlatform.Win64)
-        {
-            PublicAdditionalLibraries.Add(Path.Combine(LibrariesPath, libname + StaticLibExtension));
-        }
-
-        // Copy dynamic library to Binaries folder
-
-        if (!Directory.Exists(BinariesPath))
-        {
-            Directory.CreateDirectory(BinariesPath);
-        }
-
-        if (!File.Exists(Path.Combine(BinariesPath, libname + DynamicLibExtension)))
-        {
-            File.Copy(Path.Combine(LibrariesPath, libname + DynamicLibExtension), Path.Combine(BinariesPath, libname + DynamicLibExtension), true);
-        }
-
-        // Set up dynamic library
-
-        if (Target.Platform == UnrealTargetPlatform.Win64)
-        {
-            PublicDelayLoadDLLs.Add(libname + DynamicLibExtension);
-        }
-        if (Target.Platform == UnrealTargetPlatform.Mac)
-        {
-            PublicDelayLoadDLLs.Add(Path.Combine(BinariesPath, libname + DynamicLibExtension));
-        }
-        
-        RuntimeDependencies.Add(Path.Combine(BinariesPath, libname + DynamicLibExtension));
-
-        // Set up include path
-        PublicIncludePaths.Add(IncludesPath);
-
-        // Add definitions
-        PublicDefinitions.Add(string.Format("WITH_" + libname.ToUpper() + "_BINDING={0}", 1));
-    }
+			PrivateDependencyModuleNames.AddRange(new string[] { "Launch" });
+			AdditionalPropertiesForReceipt.Add("AndroidPlugin", Path.Combine(PluginPath, "MqttUtilities_Android_UPL.xml"));
+		}
+	}
 }

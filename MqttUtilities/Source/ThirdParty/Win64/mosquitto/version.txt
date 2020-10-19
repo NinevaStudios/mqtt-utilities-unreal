@@ -1,0 +1,2 @@
+mosquitto-1.6.12 19-Aug-2020
+Downloaded prebuilt binary from https://mosquitto.org/download/

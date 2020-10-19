@@ -35,7 +35,7 @@ void UMqttClient::Connect(FMqttConnectionData connectionData, const FOnConnectDe
 	/** 
 	 * All communication between client and broker should be done in a separate thread.
 	 * Runnable task stores thread-safe queue for output messages (subscribe, unsubscribe, publish)
-	 * and receives broker responsen that are redirected to client.
+	 * and receives broker response that are redirected to client.
 	*/
 	
 	Task = new FMqttRunnable(this);
