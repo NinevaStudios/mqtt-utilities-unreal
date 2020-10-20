@@ -9,11 +9,15 @@ struct MQTTUTILITIES_API FMqttConnectionData
 {
 	GENERATED_BODY()
 
-    /** User login. */
+	/** User login. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MQTT")
 	FString Login;
 
-    /** User password. */
+	/** User password. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MQTT")
 	FString Password;
+
+	/** Secure connection via TLS */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MQTT")
+	bool bUseTLS;
 };

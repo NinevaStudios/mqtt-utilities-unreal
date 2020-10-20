@@ -1,16 +1,18 @@
 // Copyright (c) 2019 Nineva Studios
 
 #include "MqttClient.h"
+
+#include "GenericPlatform/GenericPlatformAffinity.h"
+#include "HAL/RunnableThread.h"
 #include "MqttRunnable.h"
 #include "MqttTask.h"
-#include "HAL/RunnableThread.h"
 #include "Utils/StringUtils.h"
 
 void UMqttClient::BeginDestroy()
 {
 	UMqttClientBase::BeginDestroy();
 
-	if (Task != nullptr) 
+	if (Task != nullptr)
 	{
 		Task->StopRunning();
 	}
@@ -19,7 +21,7 @@ void UMqttClient::BeginDestroy()
 void UMqttClient::Connect(FMqttConnectionData connectionData, const FOnConnectDelegate& onConnectCallback)
 {
 	OnConnectDelegate = onConnectCallback;
-	
+
 	if (Task != nullptr && Task->IsAlive())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MQTT => MQTT task is already running. Disconnect and try again"));
@@ -37,24 +39,25 @@ void UMqttClient::Connect(FMqttConnectionData connectionData, const FOnConnectDe
 	 * Runnable task stores thread-safe queue for output messages (subscribe, unsubscribe, publish)
 	 * and receives broker response that are redirected to client.
 	*/
-	
+
 	Task = new FMqttRunnable(this);
 
-	Task->Host = std::string(TCHAR_TO_ANSI(*ClientConfig.HostUrl));	
+	Task->Host = std::string(TCHAR_TO_ANSI(*ClientConfig.HostUrl));
 	Task->ClientId = std::string(TCHAR_TO_ANSI(*ClientConfig.ClientId));
 	Task->Port = ClientConfig.Port;
 
 	Task->Username = std::string(TCHAR_TO_ANSI(*connectionData.Login));
 	Task->Password = std::string(TCHAR_TO_ANSI(*connectionData.Password));
+	Task->bIsSecureConnection = connectionData.bUseTLS;
 
-	Thread = FRunnableThread::Create(Task, TEXT("MQTT-Test"), 0, TPri_Normal, FGenericPlatformAffinity::GetNoAffinityMask());
+	Thread = FRunnableThread::Create(Task, TEXT("MQTT"), 0, EThreadPriority::TPri_Normal, FGenericPlatformAffinity::GetNoAffinityMask());
 }
 
 void UMqttClient::Disconnect(const FOnDisconnectDelegate& onDisconnectCallback)
 {
 	OnDisconnectDelegate = onDisconnectCallback;
-	
-	if (Task != nullptr) 
+
+	if (Task != nullptr)
 	{
 		Task->StopRunning();
 	}
@@ -64,15 +67,15 @@ void UMqttClient::Disconnect(const FOnDisconnectDelegate& onDisconnectCallback)
 
 void UMqttClient::Subscribe(FString topic, int qos)
 {
-	if(Task == nullptr || !Task->IsAlive())
+	if (Task == nullptr || !Task->IsAlive())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MQTT => There is no running MQTT task"));
 		return;
 	}
 
 	char* sub = StringUtils::CopyString(topic);
-	
-	FMqttSubscribeTaskPtr taskSubscribe = MakeShared<FMqttSubscribeTask>();;
+
+	FMqttSubscribeTaskPtr taskSubscribe = MakeShared<FMqttSubscribeTask>();
 	taskSubscribe->type = MqttTaskType::Subscribe;
 	taskSubscribe->qos = qos;
 	taskSubscribe->sub = sub;
@@ -82,7 +85,7 @@ void UMqttClient::Subscribe(FString topic, int qos)
 
 void UMqttClient::Unsubscribe(FString topic)
 {
-	if(Task == nullptr || !Task->IsAlive())
+	if (Task == nullptr || !Task->IsAlive())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MQTT => There is no running MQTT task"));
 		return;
@@ -93,13 +96,13 @@ void UMqttClient::Unsubscribe(FString topic)
 	FMqttUnsubscribeTaskPtr taskUnsubscribe = MakeShared<FMqttUnsubscribeTask>();
 	taskUnsubscribe->type = MqttTaskType::Unsubscribe;
 	taskUnsubscribe->sub = sub;
-	
+
 	Task->PushTask(taskUnsubscribe);
 }
 
 void UMqttClient::Publish(FMqttMessage message)
 {
-	if(Task == nullptr || !Task->IsAlive())
+	if (Task == nullptr || !Task->IsAlive())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MQTT => There is no running MQTT task"));
 		return;
@@ -114,7 +117,7 @@ void UMqttClient::Publish(FMqttMessage message)
 	taskPublish->payloadlen = (int)strlen(msg);
 	taskPublish->payload = msg;
 	taskPublish->qos = message.Qos;
-	taskPublish->retain = message.Retain;	
+	taskPublish->retain = message.Retain;
 
 	Task->PushTask(taskPublish);
 }
