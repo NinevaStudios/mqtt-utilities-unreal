@@ -34,7 +34,7 @@ public class MqttUtilities : ModuleRules
 
 			PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/Windows"));
 			PrivateIncludePaths.Add(Path.Combine(MosquittoLibPath, "includes"));
-			
+
 			PublicDelayLoadDLLs.Add("mosquitto.dll");
 			PublicDelayLoadDLLs.Add("mosquittopp.dll");
 
@@ -54,6 +54,9 @@ public class MqttUtilities : ModuleRules
 
 			PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/Mac"));
 			PrivateIncludePaths.Add(Path.Combine(MosquittoLibPath, "includes"));
+
+			PublicDelayLoadDLLs.Add(Path.Combine(MosquittoLibPath, "mosquitto.dylib"));
+			PublicDelayLoadDLLs.Add(Path.Combine(MosquittoLibPath, "mosquittopp.dylib"));
 
 			RuntimeDependencies.Add("$(BinaryOutputDir)/mosquitto.dylib", Path.Combine(MosquittoLibPath, "mosquitto.dylib"));
 			RuntimeDependencies.Add("$(BinaryOutputDir)/mosquittopp.dylib", Path.Combine(MosquittoLibPath, "mosquittopp.dylib"));
