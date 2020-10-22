@@ -34,6 +34,7 @@ public:
 	void Init(FMqttClientConfig configData) override;
 
 private:
-
+	
+	FMqttClientConfig config;
 	MQTTSession* mqttSession;
 };
