@@ -1,29 +1,30 @@
 // Copyright (c) 2019 Nineva Studios
 
-#include "IMqttUtilitiesModule.h"
-#include "Interfaces/IPluginManager.h"
+#include "MqttUtilitiesModule.h"
+
+#include "Engine/Engine.h"
 #include "HAL/PlatformProcess.h"
+#include "ISettingsModule.h"
+#include "Interfaces/IPluginManager.h"
+#include "MqttUtilitiesSettings.h"
 
 #define LOCTEXT_NAMESPACE "MqttUtilities"
-
-class FMqttUtilitiesModule : public IMqttUtilitiesModule
-{
-	virtual void StartupModule() override;
-	virtual void ShutdownModule() override;
-
-private:
-
-	void* mDllHandleMosquitto;
-	void* mDllHandleMosquittopp;
-};
 
 IMPLEMENT_MODULE(FMqttUtilitiesModule, MqttUtilities)
 
 void FMqttUtilitiesModule::StartupModule()
 {
-	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	MqttUtilitiesSettings = NewObject<UMqttUtilitiesSettings>(GetTransientPackage(), "MqttUtilitiesSettings", RF_Standalone);
+	MqttUtilitiesSettings->AddToRoot();
 
-	// For Windows and Mac platforms dynamic libraries should be loaded manually
+	// Register settings
+	if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
+	{
+		SettingsModule->RegisterSettings("Project", "Plugins", "MqttUtilities",
+			LOCTEXT("RuntimeSettingsName", "MQTT Utilities"),
+			LOCTEXT("RuntimeSettingsDescription", "Configure MQTT Utilities"),
+			MqttUtilitiesSettings);
+	}
 
 #if PLATFORM_WINDOWS
 
@@ -34,9 +35,9 @@ void FMqttUtilitiesModule::StartupModule()
 
 	mDllHandleMosquitto = FPlatformProcess::GetDllHandle(*(DLLPath + "mosquitto.dll"));
 	mDllHandleMosquittopp = FPlatformProcess::GetDllHandle(*(DLLPath + "mosquittopp.dll"));
-	
+
 	FPlatformProcess::PopDllDirectory(*DLLPath);
-	
+
 #endif
 
 #if PLATFORM_MAC
@@ -48,19 +49,31 @@ void FMqttUtilitiesModule::StartupModule()
 
 	mDllHandleMosquitto = FPlatformProcess::GetDllHandle(*(DLLPath + "mosquitto.dylib"));
 	mDllHandleMosquittopp = FPlatformProcess::GetDllHandle(*(DLLPath + "mosquittopp.dylib"));
-	
+
 	FPlatformProcess::PopDllDirectory(*DLLPath);
-	
+
 #endif
 }
 
 void FMqttUtilitiesModule::ShutdownModule()
 {
-	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
-	// we call this function before unloading the module.
+	if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
+	{
+		SettingsModule->UnregisterSettings("Project", "Plugins", "MqttUtilities");
+	}
+
+	if (!GExitPurge)
+	{
+		// If we're in exit purge, this object has already been destroyed
+		MqttUtilitiesSettings->RemoveFromRoot();
+	}
+	else
+	{
+		MqttUtilitiesSettings = nullptr;
+	}
 
 #if PLATFORM_WINDOWS || PLATFORM_MAC
-	
+
 	if (mDllHandleMosquitto)
 	{
 		FPlatformProcess::FreeDllHandle(mDllHandleMosquitto);
@@ -72,7 +85,7 @@ void FMqttUtilitiesModule::ShutdownModule()
 		FPlatformProcess::FreeDllHandle(mDllHandleMosquittopp);
 		mDllHandleMosquittopp = nullptr;
 	}
-	
+
 #endif
 }
 

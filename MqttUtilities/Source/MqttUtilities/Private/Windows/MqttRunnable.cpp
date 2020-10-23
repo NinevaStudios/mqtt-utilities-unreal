@@ -6,6 +6,8 @@
 #include "Misc/Paths.h"
 #include "MqttClient.h"
 #include "MqttClientImpl.h"
+#include "MqttUtilitiesSettings.h"
+#include "MqttUtilitiesModule.h"
 
 FMqttRunnable::FMqttRunnable(UMqttClient* mqttClient)
 	: FRunnable()
@@ -54,9 +56,10 @@ uint32 FMqttRunnable::Run()
 
 	if (bIsSecureConnection)
 	{
+		UMqttUtilitiesSettings* Settings = FMqttUtilitiesModule::Get().GetSettings();
 		FString PemCertBundlePath = FPaths::ProjectContentDir();
 		PemCertBundlePath /= "Certificates";
-		PemCertBundlePath /= "certs.pem";
+		PemCertBundlePath /= Settings->DesktopCertificateName;
 		PemCertBundlePath = IFileManager::Get().ConvertToAbsolutePathForExternalAppForRead(*PemCertBundlePath);
 
 		if (IFileManager::Get().FileExists(*PemCertBundlePath))
