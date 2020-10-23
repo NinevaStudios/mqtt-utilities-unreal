@@ -3,6 +3,8 @@
 #include "MqttClient.h"
 
 #include "Async/Async.h"
+#include "HAL/FileManager.h"
+#include "Misc/Paths.h"
 #include "MqttDelegate.h"
 #include "MqttUtilitiesSettings.h"
 #include "MqttUtilitiesModule.h"

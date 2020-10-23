@@ -4,7 +4,7 @@
 
 #include "Engine/Engine.h"
 #include "HAL/PlatformProcess.h"
-#include "ISettingsModule.h"
+#include "Developer/Settings/Public/ISettingsModule.h"
 #include "Interfaces/IPluginManager.h"
 #include "MqttUtilitiesSettings.h"
 
