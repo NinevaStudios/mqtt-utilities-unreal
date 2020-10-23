@@ -25,15 +25,10 @@ void UMqttClient::Connect(FMqttConnectionData connectionData, const FOnConnectDe
 	{
 		UMqttUtilitiesSettings* Settings = FMqttUtilitiesModule::Get().GetSettings();
 
-		MQTTSSLSecurityPolicy* securityPolicy = [MQTTSSLSecurityPolicy policyWithPinningMode:MQTTSSLPinningModeNone];
-		MQTTSSLSecurityPolicyTransport* transport = [[MQTTSSLSecurityPolicyTransport alloc] init];
-		transport.host = config.HostUrl.GetNSString();
-		transport.port = config.Port;
-		transport.tls = YES;
+		MQTTSSLPinningMode Mode = Settings->UseCertificatePinning ? MQTTSSLPinningModeCertificate : MQTTSSLPinningModeNone;
+		MQTTSSLSecurityPolicy* securityPolicy = [MQTTSSLSecurityPolicy policyWithPinningMode:Mode];
 		if (Settings->UseCertificatePinning)
 		{
-			securityPolicy.SSLPinningMode = MQTTSSLPinningModeCertificate;
-
 			// Certificate must be DER encoded
 			FString CertificatePath = FPaths::ProjectContentDir();
 			CertificatePath /= "Certificates";
@@ -55,7 +50,13 @@ void UMqttClient::Connect(FMqttConnectionData connectionData, const FOnConnectDe
 		securityPolicy.allowInvalidCertificates = Settings->AllowInvalidCertificates;
 		securityPolicy.validatesCertificateChain = Settings->ValidatesCertificateChain;
 		securityPolicy.validatesDomainName = Settings->ValidatesDomainName;
+		
+		MQTTSSLSecurityPolicyTransport* transport = [[MQTTSSLSecurityPolicyTransport alloc] init];
+		transport.host = config.HostUrl.GetNSString();
+		transport.port = config.Port;
+		transport.tls = YES;
 		transport.securityPolicy = securityPolicy;
+		
 		mqttSession.transport = transport;
 	}
 	else
