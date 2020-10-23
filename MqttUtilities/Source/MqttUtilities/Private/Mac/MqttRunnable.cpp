@@ -150,6 +150,7 @@ uint32 FMqttRunnable::Run()
 			}
 			else
 			{
+				OnError(returnCode, FString(ANSI_TO_TCHAR(mosquitto_strerror(returnCode))));
 				UE_LOG(LogTemp, Warning, TEXT("MQTT => Trying to reconnect"));
 				connection.reconnect();
 			}
