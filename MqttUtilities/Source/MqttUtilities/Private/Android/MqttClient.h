@@ -2,8 +2,10 @@
 
 #pragma once
 
+#include "Android/AndroidApplication.h"
+#include "Android/AndroidJNI.h"
+#include "Android/AndroidJava.h"
 #include "MqttClientBase.h"
-#include "Utils/ConversionUtils.h"
 
 #include "MqttClient.generated.h"
 
@@ -11,9 +13,8 @@ UCLASS()
 class UMqttClient : public UMqttClientBase
 {
 	GENERATED_BODY()
-	
-public:
 
+public:
 	void Connect(FMqttConnectionData connectionData, const FOnConnectDelegate& onConnectCallback) override;
 
 	void Disconnect(const FOnDisconnectDelegate& onDisconnectCallback) override;
@@ -25,7 +26,6 @@ public:
 	void Publish(FMqttMessage message) override;
 
 public:
-	
 	void PostInitProperties();
 	void BeginDestroy();
 
@@ -40,9 +40,7 @@ public:
 	void OnError(int errCode, FString message);
 
 private:
-
 	TSharedPtr<FJavaClassObject> MqttHelperJavaObject;
-	FGuid Guid;
 	FJavaClassMethod ConnectMethod;
 	FJavaClassMethod DisconnectMethod;
 	FJavaClassMethod SubscribeMethod;
