@@ -3,8 +3,6 @@
 #include "MqttClient.h"
 
 #include "Async/Async.h"
-#include "MqttConnectionData.h"
-#include "MqttMessage.h"
 
 void UMqttClient::PostInitProperties()
 {
