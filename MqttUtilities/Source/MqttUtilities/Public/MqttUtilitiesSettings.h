@@ -19,6 +19,18 @@ public:
 	FString DesktopCertificateName = "broker.crt";
 
 	/**
+	* Use custom security config. This will copy a certificate located in the Resources/AndroidCertificates folder of the plugin.
+	*/
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Security | Android")
+	bool UseCustomSecurityConfig;
+
+	/** 
+	* Name of the certificate (no extension, only lower case letters, numbers, or underscores) to use as a raw resource for Android.
+	*/
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Security | Android", Meta = (DisplayName = "Certificate Name"))
+	FString AndroidCertificateName = "broker_crt";
+
+	/**
 	* Enable iOS14 app tracking transparency framework.
 	*/
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Security | iOS")

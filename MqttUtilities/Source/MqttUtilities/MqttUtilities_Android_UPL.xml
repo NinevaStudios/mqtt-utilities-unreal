@@ -5,11 +5,21 @@
 <root xmlns:android="http://schemas.android.com/apk/res/android">
 
   <init>
-    <log text="Mqtt Client initialization"/>
+    <log text="Mqtt Utilities initialization"/>
+
+    <setBoolFromProperty result="UseCustomSecurityConfig" ini="Engine" section="/Script/MqttUtilities.MqttUtilitiesSettings" property="UseCustomSecurityConfig" default="false"/>
+    <setStringFromProperty result="CertName" ini="Engine" section="/Script/MqttUtilities.MqttUtilitiesSettings" property="AndroidCertificateName" default="broker_crt"/>
+    <setStringReplace result="DefaultCertDir" source="$S(PluginDir)" find="/Source/MqttUtilities" with="/Resources/AndroidCertificates" />
   </init>
 
   <prebuildCopies>
     <copyDir src="$S(PluginDir)/Private/Java" dst="$S(BuildDir)/src/com/ninevastudios/mqttdemo" />
+    <if condition="UseCustomSecurityConfig">
+      <true>
+        <copyFile src="$S(PluginDir)/network_security_config.xml" dst="$S(BuildDir)/res/xml/network_security_config.xml" />
+        <copyFile src="$S(DefaultCertDir)/$S(CertName)" dst="$S(BuildDir)/res/raw/$S(CertName)" />
+      </true>
+    </if>
   </prebuildCopies>
 
   <!-- optional additions to proguard -->
