@@ -38,7 +38,7 @@ public class MqttHelper {
 		mqttAndroidClient = new MqttAndroidClient(activity, serverUri, clientId);
 	}
 
-	public void connect(String userName, String password) {
+	public void connect(String userName, String password, boolean useTls) {
 		try {
 			MqttConnectOptions options = new MqttConnectOptions();;
 			if (!userName.isEmpty()) options.setUserName(userName);
@@ -46,7 +46,8 @@ public class MqttHelper {
 
 			// this overrides client server URI
 			String[] serverUris = new String[1];
-			serverUris[0] = "tcp://" + mServerAddr + ":" + mPort;
+			String protocol = useTls ? "ssl://" : "tcp://";
+			serverUris[0] = protocol + mServerAddr + ":" + mPort;
 			options.setServerURIs(serverUris);
 
 			mqttAndroidClient.connect(options, null, new IMqttActionListener() {

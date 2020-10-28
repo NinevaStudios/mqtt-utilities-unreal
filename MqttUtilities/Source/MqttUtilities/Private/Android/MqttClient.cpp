@@ -40,7 +40,7 @@ void UMqttClient::Init(FMqttClientConfig configData)
 		"(Landroid/app/Activity;Ljava/lang/String;ILjava/lang/String;J)V", FJavaWrapper::GameActivityThis,
 		*url, configData.Port, *clientId, (jlong)this));
 
-	ConnectMethod = MqttHelperJavaObject->GetClassMethod("connect", "(Ljava/lang/String;Ljava/lang/String;)V");
+	ConnectMethod = MqttHelperJavaObject->GetClassMethod("connect", "(Ljava/lang/String;Ljava/lang/String;Z)V");
 	DisconnectMethod = MqttHelperJavaObject->GetClassMethod("disconnect", "(I)V");
 	SubscribeMethod = MqttHelperJavaObject->GetClassMethod("subscribeToTopic", "(Ljava/lang/String;I)V");
 	UnsubscribeMethod = MqttHelperJavaObject->GetClassMethod("unsubscribeFromTopic", "(Ljava/lang/String;)V");
@@ -53,7 +53,7 @@ void UMqttClient::Connect(FMqttConnectionData connectionData, const FOnConnectDe
 
 	auto login = FJavaClassObject::GetJString(connectionData.Login);
 	auto password = FJavaClassObject::GetJString(connectionData.Password);
-	MqttHelperJavaObject->CallMethod<void>(ConnectMethod, *login, *password);
+	MqttHelperJavaObject->CallMethod<void>(ConnectMethod, *login, *password, connectionData.bUseTLS);
 }
 
 void UMqttClient::Disconnect(const FOnDisconnectDelegate& onDisconnectCallback)
