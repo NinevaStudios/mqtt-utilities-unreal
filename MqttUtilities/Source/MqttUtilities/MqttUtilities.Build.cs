@@ -60,6 +60,8 @@ public class MqttUtilities : ModuleRules
 
 			RuntimeDependencies.Add("$(BinaryOutputDir)/mosquitto.dylib", Path.Combine(MosquittoLibPath, "mosquitto.dylib"));
 			RuntimeDependencies.Add("$(BinaryOutputDir)/mosquittopp.dylib", Path.Combine(MosquittoLibPath, "mosquittopp.dylib"));
+			RuntimeDependencies.Add("$(BinaryOutputDir)/libssl.dylib", Path.Combine(MosquittoLibPath, "libssl.dylib"));
+			RuntimeDependencies.Add("$(BinaryOutputDir)/libcrypto.dylib", Path.Combine(MosquittoLibPath, "libcrypto.dylib"));
 		}
 
 		// Additional routine for iOS
