@@ -38,7 +38,7 @@ void UMqttClient::Connect(FMqttConnectionData connectionData, const FOnConnectDe
 	 * and receives broker responsen that are redirected to client.
 	*/
 	
-	Task = new FMqttRunnable(this);
+	Task = new FMqttRunnable(this, ClientConfig.EventLoopDeltaMs);
 
 	Task->Host = std::string(TCHAR_TO_ANSI(*ClientConfig.HostUrl));	
 	Task->ClientId = std::string(TCHAR_TO_ANSI(*ClientConfig.ClientId));

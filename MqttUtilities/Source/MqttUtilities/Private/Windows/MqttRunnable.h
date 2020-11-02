@@ -17,7 +17,7 @@ class FMqttRunnable : public FRunnable
 {
 public:
 
-	FMqttRunnable(UMqttClient* mqttClient);
+	FMqttRunnable(UMqttClient* mqttClient, int updateDeltaMs = -1);
 	virtual ~FMqttRunnable();
 	
 	bool Init() override;
@@ -33,6 +33,8 @@ public:
 private:
 	
 	bool bKeepRunning;
+
+	int iUpdateDeltaMs;
 
 	std::queue<FMqttTaskPtr>* TaskQueue;
 
