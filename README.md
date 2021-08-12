@@ -12,8 +12,6 @@ Learn more about [MQTT](http://mqtt.org/) and its basic [concepts](https://mosqu
 
 [Download](https://github.com/NinevaStudios/MqttUtilities-UnrealEngine/releases) demo applications for Windows/Mac/Android and try it out. Also, you can download complete demo project made with UE 4.23 and take a look how to use certain plugin features!
 
-Join our [Discord server](https://bit.ly/nineva_support_discord) and ask us anything!
-
 ## Features
 * Establish connection with MQTT brokers
 * Publish messages
