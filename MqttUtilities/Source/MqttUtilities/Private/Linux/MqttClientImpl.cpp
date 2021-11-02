@@ -31,13 +31,13 @@ void MqttClientImpl::on_disconnect(int rc)
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("MQTT => Impl: Disconnected"));
-	
+
 	Task->OnDisconnect();
 }
 
 void MqttClientImpl::on_publish(int mid)
 {
-	UE_LOG(LogTemp, Warning, TEXT("MQTT => Impl: Mesage published"));
+	UE_LOG(LogTemp, Warning, TEXT("MQTT => Impl: Message published"));
 
 	Task->OnPublished(mid);
 }
@@ -56,7 +56,7 @@ void MqttClientImpl::on_message(const mosquitto_message * src)
 	void* buffer = malloc(PayloadLength + 1);
 	((char*)buffer)[PayloadLength] = 0;
 
-	if (buffer != NULL) 
+	if (buffer != NULL)
 	{
 		memcpy(buffer, src->payload, PayloadLength);
 	}

@@ -52,7 +52,7 @@ public:
 
 protected:
 
-    UPROPERTY()
+  UPROPERTY()
     FOnConnectDelegate OnConnectDelegate;
 	UPROPERTY()
     FOnDisconnectDelegate OnDisconnectDelegate;
@@ -65,5 +65,5 @@ protected:
 	UPROPERTY()
     FOnUnsubscribeDelegate OnUnsubscribeDelegate;
 	UPROPERTY()
-	FOnMqttErrorDelegate OnErrorDelegate;
+		FOnMqttErrorDelegate OnErrorDelegate;
 };
