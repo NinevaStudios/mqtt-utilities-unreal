@@ -12,18 +12,27 @@ Learn more about [MQTT](http://mqtt.org/) and its basic [concepts](https://mosqu
 
 [Download](https://github.com/NinevaStudios/MqttUtilities-UnrealEngine/releases) demo applications for Windows/Mac/Android and try it out. Also, you can download complete demo project made with UE 4.23 and take a look how to use certain plugin features!
 
+This plugin is based on the [Eclipse Mosquitto](https://github.com/eclipse/mosquitto) client Libraries for it's base.
+
 ## Features
 * Establish connection with MQTT brokers
 * Publish messages
 * Receive messages with a certain topic
-* Unified API for Windows/Mac/Android/iOS
+* Unified API for Windows/Mac/Android/iOS/Linux
 
 ## Supported platforms
 
 * Windows x64
+  + (Eclipse Mosquitto 1.4.8)
 * Android
+  + (Eclipse Mosquitto 1.4.8)
 * iOS
+  + (Eclipse Mosquitto 1.4.8)
 * Mac OS
+  + (Eclipse Mosquitto 1.4.8)
+* Linux
+  + (Eclipse Mosquitto 2.0.13)
+  + (Tested with Ubuntu 18.04)
 
 ## List of compatible MQTT brokers
 
@@ -39,6 +48,11 @@ This list can be extended in the future. Also, even if some MQTT brokers are not
 
 ## Changelog
 
+### v1.1.0 Update release
+
++ ADDED MQTT client implementation for Linux
++ Few README cleanup/updates
+
 ### v1.0.0 Initial release
 
-+ ADDED MQTT client implemtation for Windows/Mac/Android/iOS
++ ADDED MQTT client implementation for Windows/Mac/Android/iOS
