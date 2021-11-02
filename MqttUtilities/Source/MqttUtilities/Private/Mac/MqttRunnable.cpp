@@ -7,10 +7,11 @@
 
 #include "Async/Async.h"
 
-FMqttRunnable::FMqttRunnable(UMqttClient* mqttClient) : FRunnable()
+FMqttRunnable::FMqttRunnable(UMqttClient* mqttClient, int updateDeltaMs) : FRunnable()
 	,TaskQueue(new std::queue<FMqttTaskPtr>())
 	,TaskQueueLock(new FCriticalSection())
-	,client(mqttClient)	
+	,client(mqttClient)
+	,iUpdateDeltaMs(updateDeltaMs)
 {
 }
 
@@ -107,7 +108,7 @@ uint32 FMqttRunnable::Run()
 
 		TaskQueueLock->Unlock();
 
-		returnCode = connection.loop();
+		returnCode = connection.loop(iUpdateDeltaMs);
 
 		if (returnCode != 0)
 		{
