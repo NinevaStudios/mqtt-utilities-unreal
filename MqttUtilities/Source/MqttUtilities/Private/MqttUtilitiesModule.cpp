@@ -34,9 +34,9 @@ void FMqttUtilitiesModule::StartupModule()
 
 	mDllHandleMosquitto = FPlatformProcess::GetDllHandle(*(DLLPath + "mosquitto.dll"));
 	mDllHandleMosquittopp = FPlatformProcess::GetDllHandle(*(DLLPath + "mosquittopp.dll"));
-	
+
 	FPlatformProcess::PopDllDirectory(*DLLPath);
-	
+
 #endif
 
 #if PLATFORM_MAC
@@ -48,10 +48,25 @@ void FMqttUtilitiesModule::StartupModule()
 
 	mDllHandleMosquitto = FPlatformProcess::GetDllHandle(*(DLLPath + "mosquitto.dylib"));
 	mDllHandleMosquittopp = FPlatformProcess::GetDllHandle(*(DLLPath + "mosquittopp.dylib"));
-	
+
 	FPlatformProcess::PopDllDirectory(*DLLPath);
-	
+
 #endif
+
+#if PLATFORM_LINUX
+
+	const FString PluginDir = IPluginManager::Get().FindPlugin(TEXT("MqttUtilities"))->GetBaseDir();
+	const FString DLLPath = PluginDir / TEXT("Binaries/Linux/");
+
+	FPlatformProcess::PushDllDirectory(*DLLPath);
+
+	mDllHandleMosquitto = FPlatformProcess::GetDllHandle(*(DLLPath + "libmosquitto.so"));
+	mDllHandleMosquittopp = FPlatformProcess::GetDllHandle(*(DLLPath + "libmosquittopp.so"));
+
+	FPlatformProcess::PopDllDirectory(*DLLPath);
+
+#endif
+
 }
 
 void FMqttUtilitiesModule::ShutdownModule()
@@ -59,8 +74,8 @@ void FMqttUtilitiesModule::ShutdownModule()
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.
 
-#if PLATFORM_WINDOWS || PLATFORM_MAC
-	
+#if PLATFORM_WINDOWS || PLATFORM_MAC || PLATFORM_LINUX
+
 	if (mDllHandleMosquitto)
 	{
 		FPlatformProcess::FreeDllHandle(mDllHandleMosquitto);
@@ -72,7 +87,7 @@ void FMqttUtilitiesModule::ShutdownModule()
 		FPlatformProcess::FreeDllHandle(mDllHandleMosquittopp);
 		mDllHandleMosquittopp = nullptr;
 	}
-	
+
 #endif
 }
 
