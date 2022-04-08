@@ -8,10 +8,10 @@
 #include "Async/Async.h"
 
 FMqttRunnable::FMqttRunnable(UMqttClient* mqttClient, int updateDeltaMs) : FRunnable()
+	,iUpdateDeltaMs(updateDeltaMs)
 	,TaskQueue(new std::queue<FMqttTaskPtr>())
 	,TaskQueueLock(new FCriticalSection())
 	,client(mqttClient)
-	,iUpdateDeltaMs(updateDeltaMs)
 {
 }
 
