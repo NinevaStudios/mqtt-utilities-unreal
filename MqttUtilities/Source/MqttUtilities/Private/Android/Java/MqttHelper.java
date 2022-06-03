@@ -3,7 +3,6 @@
 package com.ninevastudios.mqttdemo;
 
 import android.app.Activity;
-import android.support.annotation.Keep;
 import android.util.Log;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -15,7 +14,6 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-@Keep
 public class MqttHelper {
 	private final String TAG = "MQTT => ";
 
@@ -31,13 +29,11 @@ public class MqttHelper {
 
 	private String m_Guid;
 
-	@Keep
 	public MqttHelper(Activity activity, String serverUri, String clientId, String guid) {
 		mqttAndroidClient = new MqttAndroidClient(activity, serverUri, clientId);
 		m_Guid = guid;
 	}
 
-	@Keep
 	public void connect(MqttConnectOptions options) {
 		try {
 			mqttAndroidClient.connect(options, null, new IMqttActionListener() {
@@ -57,7 +53,6 @@ public class MqttHelper {
 		}
 	}
 
-	@Keep
 	public void disconnect(int quiesceTimeout) {
 		try {
 			if (!mqttAndroidClient.isConnected()) {
@@ -82,12 +77,10 @@ public class MqttHelper {
 		}
 	}
 
-	@Keep
 	public void setDisconnectedBufferOptions(DisconnectedBufferOptions disconnectedBufferOptions) {
 		mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
 	}
 
-	@Keep
 	public void subscribeToTopic(final String topic, final int qos) {
 		try {
 			if (!mqttAndroidClient.isConnected()) {
@@ -119,7 +112,6 @@ public class MqttHelper {
 		}
 	}
 
-	@Keep
 	public void unsubscribeFromTopic(final String topic) {
 		try {
 			if (!mqttAndroidClient.isConnected()) {
@@ -144,7 +136,6 @@ public class MqttHelper {
 		}
 	}
 
-	@Keep
 	public void publishMessage(MqttMessage message, String topic) {
 		try {
 			if (!mqttAndroidClient.isConnected()) {
@@ -169,7 +160,6 @@ public class MqttHelper {
 		}
 	}
 
-	@Keep
 	public static String stringFromByteArray(byte[] data) {
 		return new String(data);
 	}
