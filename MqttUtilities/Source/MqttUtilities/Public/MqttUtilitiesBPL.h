@@ -19,6 +19,7 @@ class MQTTUTILITIES_API UMqttUtilitiesBPL : public UBlueprintFunctionLibrary
 	 *
 	 * @return - reference to MQTT client interface object
 	 */
+public:
 	UFUNCTION(BlueprintCallable, Category = "MQTT")
 	static TScriptInterface<IMqttClientInterface> CreateMqttClient(FMqttClientConfig config);
 };
