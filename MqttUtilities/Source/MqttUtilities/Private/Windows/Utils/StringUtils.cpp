@@ -4,7 +4,8 @@
 
 char* StringUtils::CopyString(FString str)
 {
-	const char* originalStr = TCHAR_TO_ANSI(*str);
+	auto StringCaster = StringCast<ANSICHAR>(static_cast<const TCHAR*>(*str));
+	const char* originalStr = StringCaster.Get();
 	
 	char *copyStr;
 	size_t str_len;
