@@ -3,7 +3,7 @@
 #include "MqttClientImpl.h"
 #include "MqttRunnable.h"
 
-MqttClientImpl::MqttClientImpl(const char * id) : mosqpp::mosquittopp(id)
+MqttClientImpl::MqttClientImpl(const char* id) : mosqpp::mosquittopp(id)
 {
 }
 
@@ -42,7 +42,7 @@ void MqttClientImpl::on_publish(int mid)
 	Task->OnPublished(mid);
 }
 
-void MqttClientImpl::on_message(const mosquitto_message * src)
+void MqttClientImpl::on_message(const mosquitto_message* src)
 {
 	UE_LOG(LogTemp, Warning, TEXT("MQTT => Impl: Message received"));
 
@@ -65,10 +65,20 @@ void MqttClientImpl::on_message(const mosquitto_message * src)
 
 	free(buffer);
 
+	// Create a buffer to hold the payload without converting to FString
+	TArray<uint8> Buffer;
+	// Allocate memory for the buffer to hold the payload
+	Buffer.SetNumZeroed(PayloadLength);
+	if (PayloadLength > 0) {
+		// Copy the payload to the buffer
+		FMemory::Memcpy(Buffer.GetData(), src->payload, PayloadLength);
+	}
+	msg.MessageBuffer = Buffer;
+
 	Task->OnMessage(msg);
 }
 
-void MqttClientImpl::on_subscribe(int mid, int qos_count, const int * granted_qos)
+void MqttClientImpl::on_subscribe(int mid, int qos_count, const int* granted_qos)
 {
 	UE_LOG(LogTemp, Warning, TEXT("MQTT => Impl: Subscribed"));
 
