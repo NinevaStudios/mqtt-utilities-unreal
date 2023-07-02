@@ -1,0 +1,53 @@
+﻿# Prevent different SC's conflicting with each other (Git vs Snowtrack)
+# Do not remove this line
+.snow
+
+_renom/
+
+# Visual Studio user settings files that should be ignored.
+.vs/
+.vscode/
+*.vcxproj
+
+# Visual Studio user settings files that should be ignored.
+# And Unreal Engine directories
+Saved/
+Build/
+Binaries/
+Intermediate/
+DerivedDataCache/
+FileOpenOrder/
+Developers/
+
+*.pdb
+*-Debug.*
+*.tmp
+*.VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+*.swp
+
+*.xcodeproj
+*.xcworkspace
+
+# Allow any files from /RawContent dir.
+# Any file in /RawContent dir will be managed by git lfs.
+!/RawContent/**/*
+
+# OS/platform generated files.
+
+# Windows
+ehthumbs.db
+Thumbs.db
+
+# Mac OS X
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+._*
+.p4ignore.txt
+Builds
