@@ -48,6 +48,13 @@ This list can be extended in the future. Also, even if some MQTT brokers are not
 
 ## Changelog
 
+### v1.2.0 Update release
+
++ FIXED https://github.com/NinevaStudios/mqtt-utilities-unreal/pull/23
++ FIXED https://github.com/NinevaStudios/mqtt-utilities-unreal/pull/29
++ FIXED https://github.com/NinevaStudios/mqtt-utilities-unreal/pull/32
++ FIXED https://github.com/NinevaStudios/mqtt-utilities-unreal/pull/38
+
 ### v1.1.0 Update release
 
 + ADDED MQTT client implementation for Linux
