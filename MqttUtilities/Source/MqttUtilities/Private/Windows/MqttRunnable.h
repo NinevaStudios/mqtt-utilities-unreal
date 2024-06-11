@@ -40,6 +40,7 @@ private:
 
 	FCriticalSection* TaskQueueLock;
 
+	UPROPERTY()
 	UMqttClient* client;
 
 public:
