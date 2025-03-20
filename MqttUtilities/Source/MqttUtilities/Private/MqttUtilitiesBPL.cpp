@@ -34,8 +34,8 @@ TScriptInterface<IMqttClientInterface> UMqttUtilitiesBPL::CreateMqttClient(FMqtt
 	MqttClientInterface.SetObject(MqttClient);
 	MqttClientInterface.SetInterface(Cast<IMqttClientInterface>(MqttClient));
 	return MqttClientInterface;
-	
+#else	
+	return nullptr;
 #endif
 
-	return nullptr;
 }
